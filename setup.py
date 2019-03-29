@@ -2,7 +2,7 @@
 from os.path import exists
 from setuptools import setup
 
-DISTNAME = 'qg-ssh'
+DISTNAME = 'qg_ssh'
 PACKAGES = ['qg']
 TESTS = [p + '.tests' for p in PACKAGES]
 

@@ -2,9 +2,9 @@ import numpy as np
 from math import cos,sin,pi,isnan
 import time
 import numpy.matlib as matlib
-from qg import modgrid
-from qg import moddyn
-from qg import modelliptic
+from . import modgrid
+from . import moddyn
+from . import modelliptic
 import matplotlib.pylab as plt
 import pdb
 from scipy import interpolate

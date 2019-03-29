@@ -16,57 +16,64 @@ def psi2pv(psi1,grd):
 
 
 def pv2psi(q1, psi1g, grd, nitr=1):
-  ny, nx = psi1g.shape
-  x = psi1g[grd.indi, grd.indj]
-  q1d = q1[grd.indi, grd.indj]
-  aaa = numpy.ones(grd.np)
-  aaa[grd.vp1] = 0.
+    ny, nx = psi1g.shape
+    x = psi1g[grd.indi, grd.indj]
+    q1d = q1[grd.indi, grd.indj]
+    aaa = numpy.ones(grd.np)
+    aaa[grd.vp1] = 0.
 
-  fff1 = 1. / (grd.Rd1d ** 2)
-  fff1[grd.vp1] = 1.
+    fff1 = 1. / (grd.Rd1d ** 2)
+    fff1[grd.vp1] = 1.
 
-  ccc = q1[grd.indi,grd.indj]
-  ccc[grd.vp1] = x[grd.vp1]
-  vec = x
-  avec = compute_avec(vec, aaa, fff1, grd)
-  gg = avec - ccc
-  p = - gg  
-
-  for itr in range(nitr-1):     
-    vec = p
-    avec = compute_avec(vec, aaa, fff1, grd)
-    tmp = numpy.dot(p, avec)
-    if tmp != 0.:
-        s = - numpy.dot(p, gg) / tmp
-    else:
-        s = 1.
-    a1 = numpy.dot(gg, gg)
-    x = x + s * p
+    ccc = q1[grd.indi,grd.indj]
+    ccc[grd.vp1] = x[grd.vp1]
     vec = x
     avec = compute_avec(vec, aaa, fff1, grd)
     gg = avec - ccc
+    p = - gg  
 
-    a2 = numpy.dot(gg, gg)
-    if a1 != 0:
-        beta = a2 / a1
-    else:
-        beta = 1.
-    p = - gg + beta * p
-  vec = p
-  avec = compute_avec(vec, aaa, fff1, grd)
-  val1 = -numpy.dot(p, gg)
-  val2 = numpy.dot(p, avec)
-  if (val2 == 0.): 
-    s = 1.
-  else: 
-    s = val1 / val2
-  a1 = numpy.dot(gg, gg)
-  x = x + s * p
-  # back to 2D
-  psi1 = numpy.empty((ny, nx))
-  psi1[:, :] = numpy.NAN
-  psi1[grd.indi, grd.indj] = x[:grd.np]
-  return psi1
+    for itr in range(nitr-1):
+        vec = p
+        avec = compute_avec(vec, aaa, fff1, grd)
+        tmp = numpy.dot(p, avec)
+        
+        if tmp != 0.:
+            s = - numpy.dot(p, gg) / tmp
+        else:
+            s = 1.
+            
+        a1 = numpy.dot(gg, gg)
+        x = x + s * p
+        vec = x
+        avec = compute_avec(vec, aaa, fff1, grd)
+        gg = avec - ccc
+
+        a2 = numpy.dot(gg, gg)
+        if a1 != 0:
+            beta = a2 / a1
+        else:
+            beta = 1.
+        p = - gg + beta * p
+        
+    vec = p
+    avec = compute_avec(vec, aaa, fff1, grd)
+    val1 = -numpy.dot(p, gg)
+    val2 = numpy.dot(p, avec)
+    
+    if (val2 == 0.): 
+        s = 1.
+    else: 
+        s = val1 / val2
+        
+    a1 = numpy.dot(gg, gg)
+    x = x + s * p
+    
+    # back to 2D
+    psi1 = numpy.empty((ny, nx))
+    psi1[:, :] = numpy.NAN
+    psi1[grd.indi, grd.indj] = x[:grd.np]
+   
+    return psi1
 
 
 def compute_avec(vec, aaa, fff1, grd):
