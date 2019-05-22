@@ -9,13 +9,13 @@ import matplotlib.pylab as plt
 import pdb
 from scipy import interpolate
 
-plt.ioff()
+#plt.ioff()
 #plt.ion()
 # create a directory for plots
-import os
-plot_dir = "plots"
-if not os.path.exists(plot_dir):
-    os.makedirs(plot_dir)
+#import os
+#plot_dir = "plots"
+#if not os.path.exists(plot_dir):
+#    os.makedirs(plot_dir)
 
     
 def run_qg(h1i=None, h1m=None, Rd=None, beta1x=None, beta1y=None, lon=None, lat=None, tint=None, dtout=None, dt=None, snu1=None):

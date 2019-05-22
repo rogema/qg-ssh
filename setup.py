@@ -16,6 +16,7 @@ VERSION = '0.1'
 
 setup(name=DISTNAME,
       version=VERSION,
+      scripts=['bin/run_submission.py', 'bin/run_submission_diff.py'],
       description=DESCRIPTION,
       author=AUTHOR,
       license=LICENSE,
